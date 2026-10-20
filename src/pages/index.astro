@@ -1,15 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import { projects } from '../data/projects';
+import ProjectIndex from '../components/ProjectIndex.astro';
 import { skillGroups, levelLabel, type Level } from '../data/skills';
 import { timeline } from '../data/experience';
 import { getLabs, plannedTopics, articleTemplate } from '../data/labs';
 import { links, cv, contact } from '../data/profile';
 
 const labs = getLabs();
-const [flagship, ...rest] = projects;
 const kindLabel = { education: 'Education', cert: 'Certification', work: 'Experience' } as const;
 const pips = (l: Level) => ['a', 'b', 'c'];
 ---
@@ -22,12 +20,9 @@ const pips = (l: Level) => ['a', 'b', 'c'];
       <div class="section-head reveal">
         <div class="eyebrow"><span class="idx">01</span> Selected work</div>
         <h2 class="section-title" id="projects-title">Tools I built to understand systems, and software built for real businesses.</h2>
-        <p class="section-lead">One security project and three business applications. Each page separates what is built from what is planned, and none of them use fake screenshots.</p>
+        <p class="section-lead">One security project and three business applications. Hover a row to preview it; every page separates what is built from what is planned.</p>
       </div>
-      <div class="work-grid">
-        <ProjectCard project={flagship} />
-        {rest.map((p, i) => <ProjectCard project={p} third delay={i * 90} />)}
-      </div>
+      <ProjectIndex />
     </div>
   </section>
 
@@ -71,13 +66,17 @@ const pips = (l: Level) => ['a', 'b', 'c'];
         <h2 class="section-title" id="skills-title">What I use, and how well I know it.</h2>
         <p class="section-lead">Grouped by what the skill is for. No percentages: each tool is marked by how I actually use it today.</p>
       </div>
-      <div class="skill-grid">
+      <div class="skill-filter reveal" role="group" aria-label="Filter skills by level">
+        <button class="fbtn on" data-f="all" aria-pressed="true">All</button>
+        {(Object.keys(levelLabel) as Level[]).map((l) => <button class="fbtn" data-f={l} aria-pressed="false">{levelLabel[l]}</button>)}
+      </div>
+      <div class="skill-grid" id="skillgrid" data-filter="all">
         {skillGroups.map((g, i) => (
           <div class="sgroup reveal" style={`--d:${(i % 2) * 90}ms`}>
             <header><h3>{g.title}</h3><span class="port">{g.port}/tcp</span></header>
             <p class="blurb">{g.blurb}</p>
             {g.skills.map((s) => (
-              <div class="srow">
+              <div class="srow" data-level={s.level}>
                 <div class="n">{s.name}{s.note && <small>{s.note}</small>}</div>
                 <div class={`lv ${s.level}`}><span class="pips" aria-hidden="true">{pips(s.level).map(() => <i></i>)}</span>{levelLabel[s.level]}</div>
               </div>
@@ -87,6 +86,14 @@ const pips = (l: Level) => ['a', 'b', 'c'];
       </div>
     </div>
   </section>
+  <script>
+    const grid = document.getElementById('skillgrid');
+    document.querySelectorAll<HTMLButtonElement>('.fbtn').forEach((b) =>
+      b.addEventListener('click', () => {
+        grid?.setAttribute('data-filter', b.dataset.f!);
+        document.querySelectorAll('.fbtn').forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+      }));
+  </script>
 
   <!-- ───────── Labs ───────── -->
   <section id="labs" aria-labelledby="labs-title">
@@ -151,16 +158,14 @@ const pips = (l: Level) => ['a', 'b', 'c'];
   <!-- ───────── Contact ───────── -->
   <section id="contact" class="contact" aria-labelledby="contact-title">
     <div class="wrap">
-      <div class="contact-box reveal">
-        <div class="eyebrow"><span class="idx">06</span> Contact</div>
-        <h2 id="contact-title">{contact.heading}</h2>
-        <p>{contact.text}</p>
-        <div class="contact-list">
-          <a class="ccard" href={`mailto:${links.email}`}><span class="k">Email</span><span class="v">{links.email}</span></a>
-          <a class="ccard" href={links.github} target="_blank" rel="noopener noreferrer"><span class="k">GitHub</span><span class="v">github.com/ZTheH</span></a>
-          <a class="ccard" href={links.linkedin} target="_blank" rel="noopener noreferrer"><span class="k">LinkedIn</span><span class="v">Zakariyae Bouhout</span></a>
-          {cv.available && <a class="ccard" href={cv.file} download><span class="k">CV</span><span class="v">Download (PDF)</span></a>}
-        </div>
+      <div class="eyebrow reveal"><span class="idx">06</span> Contact</div>
+      <h2 id="contact-title" class="reveal">{contact.heading}</h2>
+      <p class="reveal">{contact.text}</p>
+      <a class="bigmail reveal" href={`mailto:${links.email}`}>{links.email}<span aria-hidden="true"> ↗</span></a>
+      <div class="hero-links reveal" style="margin-top:var(--s-6)">
+        <a href={links.github} target="_blank" rel="noopener noreferrer">github.com/ZTheH ↗</a>
+        <a href={links.linkedin} target="_blank" rel="noopener noreferrer">linkedin ↗</a>
+        {cv.available && <a href={cv.file} download>cv.pdf ↓</a>}
       </div>
     </div>
   </section>

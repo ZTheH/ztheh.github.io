@@ -55,6 +55,8 @@ if (sections.length) {
 
 // ── Reveal ──
 const reveals = document.querySelectorAll<HTMLElement>('.reveal');
+// above-the-fold hero text never waits on the observer
+requestAnimationFrame(() => document.querySelectorAll<HTMLElement>('.hero .reveal').forEach((el) => el.classList.add('in')));
 if (reduce || !('IntersectionObserver' in window)) {
   reveals.forEach((el) => el.classList.add('in'));
 } else {

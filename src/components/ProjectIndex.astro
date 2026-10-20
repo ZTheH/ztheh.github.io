@@ -1,0 +1,37 @@
+---
+import ProjectVisual from './ProjectVisual.astro';
+import { projects, statusLabel } from '../data/projects';
+---
+<ol class="pindex" id="pindex">
+  {projects.map((p) => (
+    <li class={`prow reveal ${p.flagship ? 'flag' : ''}`}>
+      <a class="prow-main" href={`/projects/${p.slug}`}>
+        <span class="pi mono">{p.index}</span>
+        <span class="pn">
+          <span class="pname">{p.name}</span>
+          <span class="ptag">{p.tagline}</span>
+        </span>
+        <span class="pcat mono">{p.category}</span>
+        <span class={`status ${p.status}`}>{statusLabel[p.status]}</span>
+        <span class="parr" aria-hidden="true">→</span>
+      </a>
+      <div class="prow-more">
+        <p>{p.summary}</p>
+        <div class="stack">{p.stack.map((s) => <span class="chip">{s}</span>)}</div>
+        {p.links.repo && <a class="gh mono" href={p.links.repo} target="_blank" rel="noopener noreferrer">github ↗</a>}
+      </div>
+      <div class="prow-vis" aria-hidden="true"><ProjectVisual kind={p.visual} /></div>
+    </li>
+  ))}
+</ol>
+
+<script>
+  // The preview card trails the cursor on devices that can hover; elsewhere it sits inline.
+  const list = document.getElementById('pindex');
+  if (list && matchMedia('(hover: hover) and (min-width: 961px)').matches) {
+    list.addEventListener('pointermove', (e) => {
+      list.style.setProperty('--mx', e.clientX + 'px');
+      list.style.setProperty('--my', e.clientY + 'px');
+    });
+  }
+</script>
