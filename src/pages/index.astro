@@ -26,12 +26,28 @@ const pips = (l: Level) => ['a', 'b', 'c'];
     </div>
   </section>
 
+  <!-- ───────── Live demos ───────── -->
+  <section id="demos" aria-labelledby="demos-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="idx">02</span> Live demos</div>
+        <h2 class="section-title" id="demos-title">Don&rsquo;t just read about it. Run it.</h2>
+        <p class="section-lead">Interactive, in-browser versions of three projects, using fictional sample data. They re-create the workflows; they are not the real applications, and nothing leaves your browser.</p>
+      </div>
+      <div class="demo-tiles">
+        <a class="dtile reveal" href="/demos/netmap"><span class="k mono">cybersecurity</span><h3>NetMap lab simulator</h3><p>Scan a fictional network: discovery, threaded port scan, CVE matching, exportable report.</p><span class="go mono">▶ launch</span></a>
+        <a class="dtile reveal" style="--d:80ms" href="/demos/inventory"><span class="k mono">business software</span><h3>Inventory system</h3><p>Barcode lookup, stock alerts and partial-payment customer balances.</p><span class="go mono">▶ launch</span></a>
+        <a class="dtile reveal" style="--d:160ms" href="/demos/pos"><span class="k mono">desktop · offline-first</span><h3>Offline POS</h3><p>Ring up a sale, give change, print a receipt, close the day. No server.</p><span class="go mono">▶ launch</span></a>
+      </div>
+    </div>
+  </section>
+
   <!-- ───────── About ───────── -->
   <section id="about" aria-labelledby="about-title">
     <div class="wrap about-grid">
       <div>
         <div class="section-head reveal" style="margin-bottom:var(--s-6)">
-          <div class="eyebrow"><span class="idx">02</span> About</div>
+          <div class="eyebrow"><span class="idx">03</span> About</div>
           <h2 class="section-title" id="about-title">From IT Foundations to Cybersecurity Engineering.</h2>
         </div>
         <div class="prose reveal">
@@ -62,7 +78,7 @@ const pips = (l: Level) => ['a', 'b', 'c'];
   <section id="skills" aria-labelledby="skills-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="eyebrow"><span class="idx">03</span> Skills</div>
+        <div class="eyebrow"><span class="idx">04</span> Skills</div>
         <h2 class="section-title" id="skills-title">What I use, and how well I know it.</h2>
         <p class="section-lead">Grouped by what the skill is for. No percentages: each tool is marked by how I actually use it today.</p>
       </div>
@@ -99,7 +115,7 @@ const pips = (l: Level) => ['a', 'b', 'c'];
   <section id="labs" aria-labelledby="labs-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="eyebrow"><span class="idx">04</span> Cybersecurity Labs</div>
+        <div class="eyebrow"><span class="idx">05</span> Cybersecurity Labs</div>
         <h2 class="section-title" id="labs-title">Security notes and lab write-ups.</h2>
         <p class="section-lead">Methodical write-ups of practical work, so you can see how I think and not just which tools I have heard of.</p>
       </div>
@@ -135,7 +151,7 @@ const pips = (l: Level) => ['a', 'b', 'c'];
   <section id="experience" aria-labelledby="exp-title">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="eyebrow"><span class="idx">05</span> Experience &amp; education</div>
+        <div class="eyebrow"><span class="idx">06</span> Experience &amp; education</div>
         <h2 class="section-title" id="exp-title">The path in one place.</h2>
         <p class="section-lead">IT foundations, development work and teaching, now pointed at cybersecurity.</p>
       </div>
@@ -158,7 +174,7 @@ const pips = (l: Level) => ['a', 'b', 'c'];
   <!-- ───────── Contact ───────── -->
   <section id="contact" class="contact" aria-labelledby="contact-title">
     <div class="wrap">
-      <div class="eyebrow reveal"><span class="idx">06</span> Contact</div>
+      <div class="eyebrow reveal"><span class="idx">07</span> Contact</div>
       <h2 id="contact-title" class="reveal">{contact.heading}</h2>
       <p class="reveal">{contact.text}</p>
       <a class="bigmail reveal" href={`mailto:${links.email}`}>{links.email}<span aria-hidden="true"> ↗</span></a>

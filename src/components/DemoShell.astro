@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/demo.css';
+interface Props { title: string; blurb: string; slug: string; kind: string; disclaimer: string }
+const { title, blurb, slug, kind, disclaimer } = Astro.props;
+---
+<Base title={`${title} — interactive demo`} description={blurb} path={`/demos/${slug}`}>
+  <section class="demo-head">
+    <div class="wrap">
+      <span class="crumb"><a href="/#demos">← Live demos</a> / {kind}</span>
+      <h1>{title}</h1>
+      <p class="lead">{blurb}</p>
+      <div class="sim-banner" role="note">
+        <span class="tag">SIMULATION</span>
+        <span>{disclaimer}</span>
+      </div>
+    </div>
+  </section>
+  <div class="wrap demo-body"><slot /></div>
+</Base>

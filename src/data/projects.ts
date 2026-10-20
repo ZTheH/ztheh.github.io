@@ -25,7 +25,7 @@ export interface Project {
   stack: string[];
   visual: VisualKind;
   flagship?: boolean;
-  links: { repo?: string; demo?: string };
+  links: { repo?: string; demo?: string }; // demo starting with '/' = in-site interactive demo (sample data)
   repoNote?: string; // shown when there is no public link
   overview: string[];
   problem: { text: string[]; objectives: string[] };
@@ -55,7 +55,7 @@ export const projects: Project[] = [
     stack: ['Python', 'Tkinter', 'threading', 'sockets', 'CVE / NVD data', 'JSON'],
     visual: 'netmap',
     flagship: true,
-    links: { repo: 'https://github.com/ZTheH/netmap' },
+    links: { repo: 'https://github.com/ZTheH/netmap', demo: '/demos/netmap' },
     overview: [
       'NetMap is a network reconnaissance and vulnerability-assessment tool I built in Python as a cybersecurity project. You point it at a single host or a CIDR range; it finds live hosts, scans their ports, identifies the services behind them, and flags known CVEs that match what it saw.',
       'It ships with two front ends over the same scanning logic: a command-line interface and a Tkinter desktop GUI with live progress and exportable results.',
@@ -145,7 +145,7 @@ export const projects: Project[] = [
       'A database-backed web application that simplifies day-to-day stock operations: products and inventory, barcode workflows, partial payment tracking, and user and record management.',
     stack: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript'], // TODO(confirm): against the actual implementation
     visual: 'inventory',
-    links: {},
+    links: { demo: '/demos/inventory' },
     repoNote: 'The source code is in a private repository. Available to discuss or demonstrate on request.',
     overview: [
       'An inventory application for businesses that still track stock in notebooks and spreadsheets. It gives them one place to manage products, quantities and customer payments.',
@@ -212,7 +212,7 @@ export const projects: Project[] = [
       'An installable, offline-first desktop application for cafés, supermarkets and small businesses that need dependable sales and inventory on a single business computer.',
     stack: ['Electron', 'Local database', 'JavaScript'], // TODO(confirm): final stack decisions
     visual: 'pos',
-    links: {},
+    links: { demo: '/demos/pos' },
     repoNote: 'Work in progress. Repository not public.',
     overview: [
       'A point-of-sale and inventory application designed to keep working when the internet does not. Data lives on the business’s own computer, and the app is installed like any other desktop program.',

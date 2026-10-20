@@ -1,0 +1,43 @@
+---
+import DemoShell from '../../components/DemoShell.astro';
+---
+<DemoShell
+  slug="pos" kind="Desktop Development / Business Software" title="Offline POS — try it"
+  blurb="Ring up a sale, take cash, get the change and a receipt, and close the day. The whole thing runs with no server, which is the design goal of the desktop version."
+  disclaimer="Browser demo of the sales workflow with fictional items, stored only in this browser. The real project is an Electron desktop application that is still in development."
+>
+  <div class="row" style="justify-content:space-between">
+    <span id="netBadge" class="sev ok">● Online</span>
+    <label class="mono" style="font-size:.8rem;color:var(--muted);display:flex;gap:8px;align-items:center"><input type="checkbox" id="offline" style="accent-color:var(--accent)" /> Simulate no internet connection</label>
+  </div>
+  <div class="dgrid three">
+    <div class="dpanel">
+      <h2>Menu</h2>
+      <div class="row" id="cats" style="margin-bottom:var(--s-4)"></div>
+      <div class="tiles" id="tiles"></div>
+    </div>
+    <div class="dpanel">
+      <h2>Current sale</h2>
+      <table class="dtable"><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Amount</th></tr></thead><tbody id="lines"></tbody></table>
+      <p class="mono" style="display:flex;justify-content:space-between;margin:var(--s-4) 0"><span>Total</span><b id="total">0.00 MAD</b></p>
+      <div class="field"><label for="cash">Cash received (MAD)</label><input id="cash" type="number" min="0" step="0.5" /><span class="hint" id="change"></span></div>
+      <div class="row"><button class="dbtn primary" id="pay">Take payment</button><button class="dbtn" id="exact">Exact cash</button></div>
+    </div>
+  </div>
+  <div class="dgrid">
+    <div class="dpanel"><h2>Receipt</h2><div id="receipt"></div></div>
+    <div class="dpanel">
+      <h2>Today <button class="dbtn sm" id="closeDay">Close day</button></h2>
+      <div class="stats" style="grid-template-columns:1fr 1fr;margin:0 0 var(--s-4)"><div class="stat"><b id="dayTotal">0</b><span>takings</span></div><div class="stat"><b id="dayCount">0</b><span>sales</span></div></div>
+      <table class="dtable"><thead><tr><th>#</th><th>Time</th><th>Items</th><th class="num">Total</th></tr></thead><tbody id="dayBody"></tbody></table>
+    </div>
+  </div>
+</DemoShell>
+<style is:global>
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: var(--s-3); }
+  .tile { display: flex; flex-direction: column; gap: 6px; text-align: left; background: var(--bg); color: var(--text); border: 1px solid var(--line-2); border-radius: 10px; padding: var(--s-4); cursor: pointer; font: inherit; transition: border-color .2s, transform .2s var(--ease); }
+  .tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .tile b { font-family: var(--font-mono); font-size: .8rem; color: var(--accent); font-weight: 500; }
+  #receipt pre { font-family: var(--font-mono); font-size: .82rem; background: #0e1417; border: 1px dashed var(--line-2); padding: var(--s-4); border-radius: 6px; width: fit-content; margin: 0 auto; color: #cfd9dd; }
+</style>
+<script>import '../../scripts/demos/pos';</script>

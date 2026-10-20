@@ -79,3 +79,10 @@ if (toc.length) {
   );
   secs.forEach((s) => tio.observe(s));
 }
+
+// Spotlight on demo tiles
+document.querySelectorAll<HTMLElement>(".dtile").forEach((t) =>
+  t.addEventListener("pointermove", (e) => {
+    const r = t.getBoundingClientRect();
+    t.style.setProperty("--px", e.clientX - r.left + "px"); t.style.setProperty("--py", e.clientY - r.top + "px");
+  }));

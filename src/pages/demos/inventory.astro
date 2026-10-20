@@ -1,0 +1,48 @@
+---
+import DemoShell from '../../components/DemoShell.astro';
+---
+<DemoShell
+  slug="inventory" kind="Software Engineering / Business Applications" title="Inventory Management — try it"
+  blurb="A working miniature of the stock workflow: search products, scan a barcode, sell with a partial payment, and watch customer balances and low-stock alerts update."
+  disclaimer="Browser demo with fictional sample data, stored only in this browser. It is a re-creation of the workflow, not the real PHP/MySQL application, and nothing is sent to a server."
+>
+  <div class="stats" style="margin-top:0">
+    <div class="stat"><b id="kItems">0</b><span>products</span></div>
+    <div class="stat"><b id="kLow">0</b><span>low stock</span></div>
+    <div class="stat"><b id="kOwed">0</b><span>owed by customers</span></div>
+    <div class="stat"><button class="dbtn sm danger" id="reset">Reset sample data</button></div>
+  </div>
+  <div class="dgrid three">
+    <div class="dpanel">
+      <h2>Products &amp; stock</h2>
+      <div class="field"><label for="search">Search by name or barcode</label><input id="search" type="text" placeholder="e.g. tea, 6111…" autocomplete="off" /></div>
+      <div class="tablewrap"><table class="dtable"><thead><tr><th>Product</th><th class="num">Price</th><th class="num">Stock</th><th class="num">Actions</th></tr></thead><tbody id="prodBody"></tbody></table></div>
+      <details style="margin-top:var(--s-5)"><summary class="mono" style="cursor:pointer;color:var(--accent);font-size:.82rem">+ Add a product</summary>
+        <form id="addForm" class="dgrid" style="margin-top:var(--s-4);gap:var(--s-3)">
+          <div class="field"><label for="a1">Barcode</label><input id="a1" name="sku" type="text" required /></div>
+          <div class="field"><label for="a2">Name</label><input id="a2" name="name" type="text" required /></div>
+          <div class="field"><label for="a3">Price (MAD)</label><input id="a3" name="price" type="number" step="0.01" min="0" value="10" /></div>
+          <div class="field"><label for="a4">Stock</label><input id="a4" name="stock" type="number" min="0" value="10" /></div>
+          <button class="dbtn primary" type="submit" style="grid-column:1/-1;justify-self:start">Add product</button>
+        </form></details>
+    </div>
+    <div class="dpanel">
+      <h2>New sale</h2>
+      <form id="scanForm" class="row" style="margin-bottom:var(--s-4)">
+        <div class="field" style="flex:1;margin:0;min-width:160px"><label for="barcode">Barcode</label><input id="barcode" type="text" placeholder="type or paste, press Enter" autocomplete="off" /></div>
+        <button class="dbtn" type="button" id="simScan" style="align-self:end">Simulate scan</button>
+      </form>
+      <table class="dtable"><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Amount</th><th></th></tr></thead><tbody id="cartBody"></tbody></table>
+      <p class="mono" style="display:flex;justify-content:space-between;margin:var(--s-4) 0 var(--s-3)"><span>Total</span><b id="cartTotal">0.00 MAD</b></p>
+      <div class="field"><label for="cust">Customer</label><select id="cust"></select></div>
+      <div class="field"><label for="paid">Amount paid now (MAD)</label><input id="paid" type="number" step="0.01" min="0" /><span class="hint" id="dueHint"></span></div>
+      <button class="dbtn primary" id="checkout">Complete sale</button>
+    </div>
+  </div>
+  <div class="dpanel">
+    <h2>Customers &amp; balances</h2>
+    <div class="tablewrap"><table class="dtable"><thead><tr><th>Customer</th><th class="num">Balance</th><th class="num"></th></tr></thead><tbody id="custBody"></tbody></table></div>
+    <form id="custForm" class="row" style="margin-top:var(--s-4)"><input id="custName" type="text" placeholder="New customer name" aria-label="New customer name" style="background:var(--bg);color:var(--text);border:1px solid var(--line-2);border-radius:8px;padding:.6rem .8rem;font:inherit" /><button class="dbtn" type="submit">Add customer</button></form>
+  </div>
+</DemoShell>
+<script>import '../../scripts/demos/inventory';</script>

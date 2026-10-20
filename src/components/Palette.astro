@@ -1,0 +1,49 @@
+---
+import { links } from '../data/profile';
+import { projects } from '../data/projects';
+const items = [
+  { g: 'Go to', t: 'Projects', h: '/#projects' }, { g: 'Go to', t: 'Live demos', h: '/#demos' }, { g: 'Go to', t: 'About', h: '/#about' },
+  { g: 'Go to', t: 'Skills', h: '/#skills' }, { g: 'Go to', t: 'Cybersecurity labs', h: '/#labs' }, { g: 'Go to', t: 'Experience', h: '/#experience' }, { g: 'Go to', t: 'Contact', h: '/#contact' },
+  ...projects.map((p) => ({ g: 'Project', t: p.name, h: `/projects/${p.slug}` })),
+  { g: 'Demo', t: 'Run NetMap lab simulator', h: '/demos/netmap' }, { g: 'Demo', t: 'Try the inventory system', h: '/demos/inventory' }, { g: 'Demo', t: 'Try the offline POS', h: '/demos/pos' },
+  { g: 'Link', t: 'GitHub profile', h: links.github, ext: true }, { g: 'Link', t: 'LinkedIn profile', h: links.linkedin, ext: true },
+  { g: 'Action', t: 'Copy email address', a: 'copy-email' },
+];
+---
+<dialog id="palette" aria-label="Command palette" data-email={links.email} data-items={JSON.stringify(items)}>
+  <div class="pal-box">
+    <input id="pal-input" type="text" placeholder="Jump to a section, project or demo…" autocomplete="off" spellcheck="false" aria-label="Search commands" role="combobox" aria-expanded="true" aria-controls="pal-list" />
+    <ul id="pal-list" role="listbox"></ul>
+    <div class="pal-foot mono"><span>↑↓ navigate</span><span>↵ open</span><span>esc close</span></div>
+  </div>
+</dialog>
+<script>
+  import '../scripts/palette';
+</script>
+<style is:global>
+  .kbd-btn { display: inline-flex; gap: 3px; background: transparent; border: 1px solid var(--line-2); border-radius: 8px; padding: 0.35rem 0.5rem; cursor: pointer; margin-left: var(--s-2); color: var(--muted); }
+  .kbd-btn:hover { border-color: var(--accent); color: var(--accent); }
+  kbd { font-family: var(--font-mono); font-size: 0.68rem; }
+  @media (max-width: 960px) { .kbd-btn { display: none; } }
+  #palette { border: 1px solid var(--line-2); border-radius: 14px; background: var(--surface); color: var(--text); padding: 0; width: min(620px, 92vw); margin: 12vh auto auto; box-shadow: 0 40px 120px -20px #000; }
+  #palette::backdrop { background: rgba(4, 7, 9, 0.7); backdrop-filter: blur(4px); }
+  #pal-input { width: 100%; background: transparent; border: 0; border-bottom: 1px solid var(--line-2); color: var(--text); font: inherit; font-size: 1.05rem; padding: 1.1rem 1.3rem; outline: none; }
+  #pal-list { list-style: none; margin: 0; padding: 6px; max-height: 50vh; overflow: auto; }
+  #pal-list li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.65rem 0.9rem; border-radius: 8px; cursor: pointer; }
+  #pal-list li .g { font-family: var(--font-mono); font-size: 0.7rem; color: var(--faint); text-transform: uppercase; letter-spacing: .06em; }
+  #pal-list li[aria-selected='true'] { background: rgba(59, 232, 189, 0.12); color: var(--accent); }
+  .pal-foot { display: flex; gap: 1.2rem; padding: 0.6rem 1.2rem; border-top: 1px solid var(--line); font-size: 0.7rem; color: var(--faint); }
+  .demo-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+  .dtile { position: relative; display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-6); border: 1px solid var(--line-2); border-radius: var(--radius); background: linear-gradient(160deg, var(--surface), var(--bg-2)); overflow: hidden; transition: transform .35s var(--ease), border-color .3s; }
+  .dtile::before { content: ''; position: absolute; inset: 0; background: radial-gradient(300px circle at var(--px, 50%) var(--py, 0%), rgba(59,232,189,0.14), transparent 60%); opacity: 0; transition: opacity .3s; }
+  .dtile:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .dtile:hover::before { opacity: 1; }
+  .dtile .k { color: var(--cyan); font-size: .74rem; }
+  .dtile h3 { font-size: 1.5rem; position: relative; }
+  .dtile p { color: var(--muted); margin: 0; position: relative; }
+  .dtile .go { color: var(--accent); margin-top: auto; padding-top: var(--s-4); position: relative; }
+  @media (max-width: 960px) { .demo-tiles { grid-template-columns: 1fr; } }
+  .prow-links { display: flex; gap: var(--s-5); flex-wrap: wrap; }
+  .prow-links .tryit { color: var(--accent); font-size: .85rem; }
+  .prow-links .tryit:hover { text-decoration: underline; }
+</style>

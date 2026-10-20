@@ -18,7 +18,10 @@ import { projects, statusLabel } from '../data/projects';
       <div class="prow-more">
         <p>{p.summary}</p>
         <div class="stack">{p.stack.map((s) => <span class="chip">{s}</span>)}</div>
-        {p.links.repo && <a class="gh mono" href={p.links.repo} target="_blank" rel="noopener noreferrer">github ↗</a>}
+        <div class="prow-links">
+          {p.links.demo && <a class="tryit mono" href={p.links.demo}>▶ try the live demo</a>}
+          {p.links.repo && <a class="gh mono" href={p.links.repo} target="_blank" rel="noopener noreferrer">github ↗</a>}
+        </div>
       </div>
       <div class="prow-vis" aria-hidden="true"><ProjectVisual kind={p.visual} /></div>
     </li>

@@ -1,0 +1,43 @@
+---
+import DemoShell from '../../components/DemoShell.astro';
+---
+<DemoShell
+  slug="netmap" kind="Cybersecurity / Python" title="NetMap — lab simulator"
+  blurb="Run a scan against a built-in fictional network and watch the workflow NetMap follows: host discovery, a multithreaded port scan, service detection, CVE matching, then a report you can export."
+  disclaimer="This is a browser simulation using sample data. It sends no network traffic and cannot scan anything real. The actual NetMap is a Python tool that runs on your own machine, only against networks you own or are authorised to test."
+>
+  <div class="dgrid three">
+    <div class="dpanel">
+      <h2>Network topology <span id="phase" class="mono" style="color:var(--accent)">Idle</span></h2>
+      <canvas id="topo" class="topo" aria-label="Network topology of the lab network, hosts appear as they are discovered"></canvas>
+      <div class="bar" style="margin-top:var(--s-4)" role="progressbar" aria-label="Scan progress"><i id="barfill"></i></div>
+      <div class="lanes" id="lanes" aria-hidden="true"></div>
+      <div class="stats">
+        <div class="stat"><b id="sHosts">0</b><span>hosts</span></div>
+        <div class="stat"><b id="sPorts">0</b><span>ports probed</span></div>
+        <div class="stat"><b id="sFind">0</b><span>findings</span></div>
+        <div class="stat"><b id="sCrit">0</b><span>critical</span></div>
+      </div>
+    </div>
+    <div class="dpanel">
+      <h2>Scan options</h2>
+      <div class="field"><label for="target">Target (single host or CIDR)</label>
+        <input id="target" type="text" value="192.168.56.0/24" autocomplete="off" spellcheck="false" />
+        <span class="hint">Only the built-in lab range works in this demo.</span><span class="err" id="err" role="alert"></span></div>
+      <div class="field"><label for="profile">Scan profile</label>
+        <select id="profile"><option value="standard">Standard (13 common ports)</option><option value="quick">Quick (4 web/SSH ports)</option></select>
+        <span class="hint">Try Quick, then Standard: scan scope changes what you find.</span></div>
+      <div class="field"><label for="threads">Worker threads: <span id="threadsOut">20</span></label>
+        <input id="threads" type="range" min="1" max="50" value="20" /></div>
+      <div class="row">
+        <button class="dbtn primary" id="start">▶ Start scan</button>
+        <button class="dbtn" id="cancel" disabled>Cancel</button>
+        <button class="dbtn" id="export" disabled>Export JSON</button>
+      </div>
+      <h2 style="margin-top:var(--s-5)">Live log</h2>
+      <div class="log" id="log" aria-live="off"></div>
+    </div>
+  </div>
+  <div class="dpanel"><h2>Report</h2><div id="results"></div></div>
+</DemoShell>
+<script>import '../../scripts/demos/netmap';</script>

@@ -106,15 +106,17 @@ const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).p
 
       <section class="pd-sec" id="links" style="padding-block:0 var(--s-7)">
         <h2><span class="n">{num('links')}</span>Repository &amp; demo</h2>
-        {(p.links.repo || p.links.demo) ? (
+        {(p.links.repo || p.links.demo) ? (<>
           <div class="link-row">
             {p.links.repo && <a class="btn primary" href={p.links.repo} target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>}
-            {p.links.demo && <a class="btn" href={p.links.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}
+            {p.links.demo && (p.links.demo.startsWith('/')
+              ? <a class="btn" href={p.links.demo}>▶ Try the interactive demo</a>
+              : <a class="btn" href={p.links.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>)}
           </div>
-        ) : (
+          {p.links.demo?.startsWith('/') && <p class="pd-cap" style="margin-top:var(--s-4)">The in-site demo is a browser simulation of the workflow using sample data. It is not the real application.</p>}
+        </>) : (
           <div class="note-box">{p.repoNote ?? 'No public links yet.'}</div>
         )}
-        {p.links.repo && !p.links.demo && <p class="pd-cap" style="margin-top:var(--s-4)">No hosted demo yet. NetMap runs locally; see the README for setup.</p>}
       </section>
 
       <div class="pd-nav">
