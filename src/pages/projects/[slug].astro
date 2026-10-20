@@ -1,0 +1,126 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectVisual from '../../components/ProjectVisual.astro';
+import { projects, statusLabel, type Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((p, i) => ({
+    params: { slug: p.slug },
+    props: { project: p, prev: projects[i - 1], next: projects[i + 1] },
+  }));
+}
+interface Props { project: Project; prev?: Project; next?: Project }
+const { project: p, prev, next } = Astro.props;
+
+const sections = [
+  { id: 'overview', title: 'Overview', show: p.overview.length > 0 },
+  { id: 'problem', title: 'Problem & objectives', show: p.problem.text.length > 0 },
+  { id: 'architecture', title: 'Architecture', show: p.architecture.parts.length > 0 },
+  { id: 'tech', title: 'Technology choices', show: p.tech.length > 0 },
+  { id: 'implementation', title: 'Implementation', show: p.implementation.length > 0 || !!p.workflow || !!p.featureStatus },
+  { id: 'visuals', title: 'Screenshots & diagrams', show: true },
+  { id: 'lessons', title: 'Challenges & lessons', show: p.lessons.length > 0 },
+  { id: 'limits', title: 'Limitations', show: p.limitations.length > 0 },
+  { id: 'future', title: 'Future improvements', show: p.future.length > 0 },
+  { id: 'links', title: 'Repository & demo', show: true },
+].filter((s) => s.show);
+const num = (id: string) => String(sections.findIndex((s) => s.id === id) + 1).padStart(2, '0');
+---
+<Base title={`${p.name} — ${p.tagline}`} description={p.summary} path={`/projects/${p.slug}`}>
+  <section class="pd-hero">
+    <div class="wrap">
+      <span class="crumb"><a href="/#projects">← Selected work</a> / {p.index} / {p.category}</span>
+      <h1>{p.name}</h1>
+      <div class="tag">{p.tagline}</div>
+      <div class="pd-meta">
+        <span class={`status ${p.status}`}>{statusLabel[p.status]}</span>
+        {p.statusNote && <span class="chip">{p.statusNote}</span>}
+        {p.stack.map((s) => <span class="chip">{s}</span>)}
+      </div>
+      <div class="pd-vis"><ProjectVisual kind={p.visual} label={`Conceptual illustration for ${p.name}`} /></div>
+      <div class="pd-cap">Original conceptual illustration. Not a screenshot of the software.</div>
+    </div>
+  </section>
+
+  <div class="wrap pd-body" style="padding-top:var(--s-7)">
+    <nav class="toc" aria-label="On this page">
+      {sections.map((s) => <a href={`#${s.id}`}>{num(s.id)} {s.title}</a>)}
+    </nav>
+
+    <article>
+      <section class="pd-sec" id="overview" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('overview')}</span>Overview</h2>
+        {p.overview.map((t) => <p>{t}</p>)}
+      </section>
+
+      <section class="pd-sec" id="problem" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('problem')}</span>Problem &amp; objectives</h2>
+        {p.problem.text.map((t) => <p>{t}</p>)}
+        <h4>Objectives</h4>
+        <ul class="bul">{p.problem.objectives.map((o) => <li>{o}</li>)}</ul>
+      </section>
+
+      <section class="pd-sec" id="architecture" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('architecture')}</span>Architecture</h2>
+        <p>{p.architecture.intro}</p>
+        <div class="parts">{p.architecture.parts.map((a) => <div><code>{a.name}</code><span>{a.role}</span></div>)}</div>
+        {p.workflow && (<>
+          <h4>{p.workflow.title}</h4>
+          <ol class="steps">{p.workflow.steps.map((s) => <li>{s}</li>)}</ol>
+        </>)}
+      </section>
+
+      <section class="pd-sec" id="tech" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('tech')}</span>Technology choices</h2>
+        <div class="parts">{p.tech.map((t) => <div><code>{t.name}</code><span>{t.why}</span></div>)}</div>
+      </section>
+
+      <section class="pd-sec" id="implementation" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('implementation')}</span>Implementation</h2>
+        <ul class="bul">{p.implementation.map((i) => <li>{i}</li>)}</ul>
+        {p.featureStatus && (<>
+          <h4>Implemented vs planned</h4>
+          <div class="fstat">{p.featureStatus.map((f) => <span class={`chip ${f.state}`}>{f.state === 'implemented' ? '● ' : '○ '}{f.name} <em style="opacity:.6;font-style:normal">({f.state})</em></span>)}</div>
+        </>)}
+      </section>
+
+      <section class="pd-sec" id="visuals" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('visuals')}</span>Screenshots &amp; diagrams</h2>
+        <div class="note-box">{p.visualsNote}</div>
+      </section>
+
+      <section class="pd-sec" id="lessons" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('lessons')}</span>Challenges &amp; lessons learned</h2>
+        <ul class="bul">{p.lessons.map((l) => <li>{l}</li>)}</ul>
+      </section>
+
+      <section class="pd-sec" id="limits" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('limits')}</span>Limitations</h2>
+        <ul class="bul">{p.limitations.map((l) => <li>{l}</li>)}</ul>
+      </section>
+
+      <section class="pd-sec" id="future" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('future')}</span>Future improvements</h2>
+        <ul class="bul">{p.future.map((l) => <li>{l}</li>)}</ul>
+      </section>
+
+      <section class="pd-sec" id="links" style="padding-block:0 var(--s-7)">
+        <h2><span class="n">{num('links')}</span>Repository &amp; demo</h2>
+        {(p.links.repo || p.links.demo) ? (
+          <div class="link-row">
+            {p.links.repo && <a class="btn primary" href={p.links.repo} target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>}
+            {p.links.demo && <a class="btn" href={p.links.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}
+          </div>
+        ) : (
+          <div class="note-box">{p.repoNote ?? 'No public links yet.'}</div>
+        )}
+        {p.links.repo && !p.links.demo && <p class="pd-cap" style="margin-top:var(--s-4)">No hosted demo yet. NetMap runs locally; see the README for setup.</p>}
+      </section>
+
+      <div class="pd-nav">
+        {prev ? <a href={`/projects/${prev.slug}`}>← {prev.name}</a> : <a href="/#projects">← All projects</a>}
+        {next ? <a href={`/projects/${next.slug}`}>{next.name} →</a> : <a href="/#contact">Get in touch →</a>}
+      </div>
+    </article>
+  </div>
+</Base>

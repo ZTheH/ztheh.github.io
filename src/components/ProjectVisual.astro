@@ -1,0 +1,104 @@
+---
+// Original, conceptual illustrations (NOT screenshots). One per project kind.
+import type { VisualKind } from '../data/projects';
+interface Props { kind: VisualKind; label?: string }
+const { kind, label = '' } = Astro.props;
+---
+<svg viewBox="0 0 480 288" preserveAspectRatio="xMidYMid meet" role="img" aria-label={label || `Conceptual illustration: ${kind}`} class="pv">
+  <defs>
+    <pattern id={`dots-${kind}`} width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.8" class="dot" /></pattern>
+  </defs>
+  <rect width="480" height="288" class="bg" />
+  <rect width="480" height="288" fill={`url(#dots-${kind})`} />
+
+  {kind === 'netmap' && (<>
+    <g class="flow">
+      <path d="M118 144 C 170 144, 170 60, 262 60" class="ln" /><path d="M118 144 C 170 144, 190 120, 262 120" class="ln" />
+      <path d="M118 144 C 170 144, 190 176, 262 176" class="ln" /><path d="M118 144 C 170 144, 170 232, 262 232" class="ln" />
+    </g>
+    <g><rect x="34" y="104" width="84" height="80" rx="10" class="box acc" /><text x="76" y="140" class="t mid acc-t">scanner</text><text x="76" y="158" class="t mid dim">CLI · GUI</text>
+      <text x="76" y="94" class="t mid dim">worker threads ×N</text></g>
+    {[[262,40,'host','22 · 80'],[262,100,'host','443 · 3306'],[262,156,'host','445 · 3389'],[262,212,'host','21 · 25']].map(([x,y,_a,ports], i) => (
+      <g>
+        <rect x={x} y={y} width="104" height="40" rx="8" class={`box ${i === 2 ? 'warn' : ''}`} />
+        <circle cx={Number(x) + 14} cy={Number(y) + 20} r="4" class={i === 2 ? 'dwarn' : 'dacc'} />
+        <text x={Number(x) + 26} y={Number(y) + 18} class="t sm">10.0.0.{10 + i * 7}</text>
+        <text x={Number(x) + 26} y={Number(y) + 32} class="t xs dim">:{ports}</text>
+      </g>
+    ))}
+    <path d="M366 176 L 396 176 L 396 232" class="ln warnln" /><rect x="380" y="208" width="72" height="48" rx="6" class="box" />
+    <path d="M392 222h48M392 232h36M392 242h44" class="ln thin" /><text x="416" y="200" class="t mid xs warn-t">CVE match</text>
+    <text x="34" y="262" class="t xs dim">conceptual architecture · not a screenshot</text>
+  </>)}
+
+  {kind === 'inventory' && (<>
+    <g>
+      {[0,1,2].map((r) => (
+        <g>
+          <line x1="40" x2="300" y1={92 + r * 62} y2={92 + r * 62} class="ln" />
+          {[0,1,2,3,4,5].map((c) => {
+            const hgt = 20 + ((c * 7 + r * 11) % 5) * 7;
+            return <rect x={50 + c * 42} y={92 + r * 62 - hgt} width="32" height={hgt} rx="3" class={`box ${(c + r) % 4 === 0 ? 'acc' : ''}`} />;
+          })}
+        </g>
+      ))}
+    </g>
+    <g><rect x="332" y="40" width="108" height="64" rx="8" class="box" />
+      {Array.from({length: 22}).map((_, i) => <rect x={344 + i * 4} y="52" width={i % 3 === 0 ? 3 : 1.5} height="28" class="fillt" />)}
+      <text x="386" y="96" class="t mid xs dim">scan · 8 90001 34</text></g>
+    <g><rect x="332" y="128" width="108" height="84" rx="8" class="box" /><text x="344" y="150" class="t xs dim">partial payment</text>
+      <rect x="344" y="162" width="84" height="8" rx="4" class="track" /><rect x="344" y="162" width="52" height="8" rx="4" class="fillacc" />
+      <text x="344" y="190" class="t sm">62% paid</text><text x="344" y="204" class="t xs dim">balance outstanding</text></g>
+    <text x="40" y="262" class="t xs dim">conceptual illustration · not a screenshot</text>
+  </>)}
+
+  {kind === 'pos' && (<>
+    <rect x="40" y="36" width="260" height="170" rx="12" class="box" /><rect x="112" y="206" width="116" height="10" rx="3" class="box" /><rect x="90" y="216" width="160" height="8" rx="4" class="box" />
+    {Array.from({length: 8}).map((_, i) => (
+      <rect x={56 + (i % 4) * 60} y={54 + Math.floor(i / 4) * 52} width="50" height="42" rx="6" class={`box ${i === 1 ? 'acc' : ''}`} />
+    ))}
+    <rect x="56" y="162" width="228" height="32" rx="6" class="box" /><text x="68" y="182" class="t xs dim">total</text><text x="272" y="183" class="t sm" text-anchor="end">— . — —</text>
+    <path d="M340 60 h96 v150 l-8 -6 -8 6 -8 -6 -8 6 -8 -6 -8 6 -8 -6 -8 6 -8 -6 -8 6 -8 -6 z" class="box" />
+    <path d="M356 84h64M356 100h48M356 116h58M356 132h40" class="ln thin" />
+    <g transform="translate(350 232)"><path d="M10 22h34a10 10 0 0 0 1-20 14 14 0 0 0-27-3A12 12 0 0 0 10 22Z" class="ln thin" /><line x1="2" y1="30" x2="54" y2="-4" class="warnln" /></g>
+    <text x="414" y="256" class="t xs dim" text-anchor="end">works offline</text>
+    <text x="40" y="262" class="t xs dim">concept · not a screenshot</text>
+  </>)}
+
+  {kind === 'municipal' && (<>
+    {[['Contributor','person · firm'],['Dossier','case file'],['Occupation','authorisation'],['Payments','quarterly']].map(([a,b], i) => (
+      <g>
+        <rect x={24 + i * 112} y="110" width="96" height="64" rx="10" class={`box ${i === 0 ? 'acc' : ''}`} />
+        <text x={72 + i * 112} y="138" class={`t mid sm ${i === 0 ? 'acc-t' : ''}`}>{a}</text>
+        <text x={72 + i * 112} y="156" class="t mid xs dim">{b}</text>
+        {i < 3 && <path d={`M${120 + i * 112} 142 h16`} class="ln acc-ln" />}
+      </g>
+    ))}
+    {['Q1','Q2','Q3','Q4'].map((q, i) => (
+      <g><rect x={346 + (i % 2) * 40} y={196 + Math.floor(i / 2) * 28} width="34" height="22" rx="4" class={`box ${i < 2 ? 'acc' : ''}`} /><text x={363 + (i % 2) * 40} y={211 + Math.floor(i / 2) * 28} class="t mid xs">{q}</text></g>
+    ))}
+    <path d="M394 174 v14" class="ln acc-ln" />
+    <g><rect x="24" y="44" width="76" height="30" rx="15" class="box" /><text x="62" y="64" class="t mid sm">FR · <tspan class="ar">ع</tspan></text></g>
+    <text x="24" y="262" class="t xs dim">conceptual data model · no real records</text>
+  </>)}
+</svg>
+
+<style>
+  .pv .bg { fill: var(--bg); }
+  .pv .dot { fill: #62c8ff; opacity: 0.16; }
+  .pv .box { fill: var(--surface); stroke: var(--line-2); stroke-width: 1.2; }
+  .pv .box.acc { stroke: var(--accent); fill: #0e2220; }
+  .pv .box.warn { stroke: var(--amber); }
+  .pv .ln { fill: none; stroke: var(--line-2); stroke-width: 1.4; }
+  .pv .ln.thin { stroke-width: 1.2; opacity: 0.8; }
+  .pv .ln.acc-ln { stroke: var(--accent); stroke-width: 1.8; }
+  .pv .warnln { fill: none; stroke: var(--amber); stroke-width: 1.4; }
+  .pv .flow .ln { stroke: var(--accent); opacity: 0.55; stroke-dasharray: 4 6; animation: dash 1.6s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset: -20; } }
+  .pv .t { font-family: var(--font-mono); font-size: 12px; fill: var(--text); }
+  .pv .t.sm { font-size: 12px; } .pv .t.xs { font-size: 10px; } .pv .t.mid { text-anchor: middle; }
+  .pv .dim { fill: var(--faint); } .pv .acc-t { fill: var(--accent); } .pv .warn-t { fill: var(--amber); }
+  .pv .dacc { fill: var(--accent); } .pv .dwarn { fill: var(--amber); }
+  .pv .fillt { fill: var(--muted); } .pv .track { fill: var(--line); } .pv .fillacc { fill: var(--accent); }
+  .pv .ar { font-family: 'Segoe UI', 'Noto Naskh Arabic', sans-serif; fill: var(--accent); }
+</style>

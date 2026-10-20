@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getLabs } from '../../data/labs';
+
+export function getStaticPaths() {
+  return getLabs().map((l) => ({ params: { slug: l.slug }, props: { lab: l } }));
+}
+const { lab } = Astro.props;
+const { Content, meta } = lab;
+---
+<Base title={meta.title} description={meta.summary} path={`/labs/${lab.slug}`} type="article">
+  <section class="pd-hero" style="padding-bottom:var(--s-6)">
+    <div class="wrap">
+      <span class="crumb"><a href="/#labs">← Cybersecurity Labs</a> / {String(meta.date).slice(0, 10)}</span>
+      <div class="article" style="padding-bottom:0">
+        <h1>{meta.title}</h1>
+        <p class="pd-cap" style="font-size:.9rem">{meta.environment}</p>
+        <div class="pd-meta">{(meta.tags ?? []).map((t: string) => <span class="chip">{t}</span>)}</div>
+      </div>
+    </div>
+  </section>
+  <div class="wrap"><article class="article"><Content /></article></div>
+</Base>

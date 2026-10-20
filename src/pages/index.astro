@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+import { skillGroups, levelLabel, type Level } from '../data/skills';
+import { timeline } from '../data/experience';
+import { getLabs, plannedTopics, articleTemplate } from '../data/labs';
+import { links, cv, contact } from '../data/profile';
+
+const labs = getLabs();
+const [flagship, ...rest] = projects;
+const kindLabel = { education: 'Education', cert: 'Certification', work: 'Experience' } as const;
+const pips = (l: Level) => ['a', 'b', 'c'];
+---
+<Base>
+  <Hero />
+
+  <!-- ───────── Selected work ───────── -->
+  <section id="projects" aria-labelledby="projects-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="idx">01</span> Selected work</div>
+        <h2 class="section-title" id="projects-title">Tools I built to understand systems, and software built for real businesses.</h2>
+        <p class="section-lead">One security project and three business applications. Each page separates what is built from what is planned, and none of them use fake screenshots.</p>
+      </div>
+      <div class="work-grid">
+        <ProjectCard project={flagship} />
+        {rest.map((p, i) => <ProjectCard project={p} third delay={i * 90} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── About ───────── -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="wrap about-grid">
+      <div>
+        <div class="section-head reveal" style="margin-bottom:var(--s-6)">
+          <div class="eyebrow"><span class="idx">02</span> About</div>
+          <h2 class="section-title" id="about-title">From IT Foundations to Cybersecurity Engineering.</h2>
+        </div>
+        <div class="prose reveal">
+          <p>I started in IT support, where the job is making things work for people who don't care how. About <strong>five years of support and development-related work</strong> taught me how real systems fail and how to stay methodical while diagnosing them.</p>
+          <p>Networking came next. I earned my <strong>Cisco CCNA in 2024</strong>, and knowing how traffic actually moves is what I lean on today when I scan a network, enumerate services or reason about an attack surface.</p>
+          <p>In parallel I kept building: Python, Java, PHP, SQL and T-SQL, and databases behind practical business tools. During a five-month internship at <strong>PIGIER</strong> I taught Java, SQL/T-SQL and Java Swing and supervised student projects. Explaining a thing clearly is the fastest way to find out whether you understand it.</p>
+          <p>Now I'm completing a <strong>Master's in Cybersecurity</strong> and turning theory into lab practice. I'm preparing for the <strong>INE eJPT</strong> and working through methodology rather than collecting tool names. <strong>NetMap</strong>, my Python network scanner, is where I started building the tools I'm learning to use.</p>
+          <p>Longer term I want to move into penetration testing and red teaming, then into cloud security, DevSecOps and the security of AI agents. Those are directions, not credentials. I'm early in them, and I'd rather say that plainly.</p>
+        </div>
+      </div>
+      <aside class="path reveal" style="--d:120ms" aria-label="Career path">
+        <h3>Path so far</h3>
+        <ol>
+          <li><b>IT support &amp; development</b><span>≈ 5 years · systems, troubleshooting, databases</span></li>
+          <li><b>Networking · CCNA</b><span>Cisco, 2024</span></li>
+          <li><b>Teaching · PIGIER</b><span>Java, SQL/T-SQL, Swing · 5-month internship</span></li>
+          <li><b>MSc Cybersecurity</b><span>Year 1 completed · Year 2 in progress</span></li>
+          <li class="next"><b>eJPT · hands-on labs</b><span>In preparation</span></li>
+        </ol>
+        <div class="interests" aria-label="Areas I am growing toward">
+          {['Penetration testing', 'Red teaming', 'Cloud security', 'DevSecOps', 'AI security'].map((t) => <span class="chip">{t}</span>)}
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ───────── Skills ───────── -->
+  <section id="skills" aria-labelledby="skills-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="idx">03</span> Skills</div>
+        <h2 class="section-title" id="skills-title">What I use, and how well I know it.</h2>
+        <p class="section-lead">Grouped by what the skill is for. No percentages: each tool is marked by how I actually use it today.</p>
+      </div>
+      <div class="skill-grid">
+        {skillGroups.map((g, i) => (
+          <div class="sgroup reveal" style={`--d:${(i % 2) * 90}ms`}>
+            <header><h3>{g.title}</h3><span class="port">{g.port}/tcp</span></header>
+            <p class="blurb">{g.blurb}</p>
+            {g.skills.map((s) => (
+              <div class="srow">
+                <div class="n">{s.name}{s.note && <small>{s.note}</small>}</div>
+                <div class={`lv ${s.level}`}><span class="pips" aria-hidden="true">{pips(s.level).map(() => <i></i>)}</span>{levelLabel[s.level]}</div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── Labs ───────── -->
+  <section id="labs" aria-labelledby="labs-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="idx">04</span> Cybersecurity Labs</div>
+        <h2 class="section-title" id="labs-title">Security notes and lab write-ups.</h2>
+        <p class="section-lead">Methodical write-ups of practical work, so you can see how I think and not just which tools I have heard of.</p>
+      </div>
+      {labs.length > 0 ? (
+        <div class="lab-list">
+          {labs.map((l) => (
+            <a class="lab-item reveal" href={`/labs/${l.slug}`}>
+              <span class="d">{String(l.meta.date).slice(0, 10)}{l.meta.environment ? ` · ${l.meta.environment}` : ''}</span>
+              <h3>{l.meta.title}</h3>
+              <p>{l.meta.summary}</p>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="labs-empty">
+          <div class="panel reveal">
+            <h3>First write-ups are in the works.</h3>
+            <p>I'd rather publish nothing than publish padding. The first articles will be real, reproducible lab work, with my own commands, output and screenshots.</p>
+            <p style="margin-bottom:0">Topics I plan to cover (plans, not completed labs):</p>
+            <div class="topics">{plannedTopics.map((t) => <span class="chip">{t}</span>)}</div>
+            <p class="safety">Everything will be done in my own labs, intentionally vulnerable applications, or systems I'm explicitly authorised to test.</p>
+          </div>
+          <div class="panel reveal" style="--d:100ms">
+            <h3>Every write-up follows one structure.</h3>
+            <ol class="tpl">{articleTemplate.map((s) => <li>{s}</li>)}</ol>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ───────── Experience ───────── -->
+  <section id="experience" aria-labelledby="exp-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="idx">05</span> Experience &amp; education</div>
+        <h2 class="section-title" id="exp-title">The path in one place.</h2>
+        <p class="section-lead">IT foundations, development work and teaching, now pointed at cybersecurity.</p>
+      </div>
+      <div class="tl">
+        {timeline.map((t, i) => (
+          <div class={`tl-item reveal ${t.status ?? ''}`} style={`--d:${i * 50}ms`}>
+            <div class="tl-card">
+              <span class="kindtag">{kindLabel[t.kind]}</span>
+              <div class="tl-top"><h3>{t.title}</h3><span class="per">{t.period}</span></div>
+              {t.org && <div class="org">{t.org}</div>}
+              {t.points && <ul>{t.points.map((p) => <li>{p}</li>)}</ul>}
+              {t.link && <p style="margin:var(--s-3) 0 0"><a class="mono" style="color:var(--accent);font-size:.82rem" href={t.link.href} target="_blank" rel="noopener noreferrer">{t.link.label} ↗</a></p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── Contact ───────── -->
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="contact-box reveal">
+        <div class="eyebrow"><span class="idx">06</span> Contact</div>
+        <h2 id="contact-title">{contact.heading}</h2>
+        <p>{contact.text}</p>
+        <div class="contact-list">
+          <a class="ccard" href={`mailto:${links.email}`}><span class="k">Email</span><span class="v">{links.email}</span></a>
+          <a class="ccard" href={links.github} target="_blank" rel="noopener noreferrer"><span class="k">GitHub</span><span class="v">github.com/ZTheH</span></a>
+          <a class="ccard" href={links.linkedin} target="_blank" rel="noopener noreferrer"><span class="k">LinkedIn</span><span class="v">Zakariyae Bouhout</span></a>
+          {cv.available && <a class="ccard" href={cv.file} download><span class="k">CV</span><span class="v">Download (PDF)</span></a>}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

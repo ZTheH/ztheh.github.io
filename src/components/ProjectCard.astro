@@ -1,0 +1,24 @@
+---
+import ProjectVisual from './ProjectVisual.astro';
+import { statusLabel, type Project } from '../data/projects';
+interface Props { project: Project; delay?: number; third?: boolean }
+const { project: p, delay = 0, third = false } = Astro.props;
+---
+<article class={`pcard reveal ${p.flagship ? 'flag' : ''} ${third ? 'third' : ''}`} style={`--d:${delay}ms`}>
+  <div class="vis"><ProjectVisual kind={p.visual} label={`Conceptual illustration for ${p.name}`} /></div>
+  <div class="body">
+    <div class="meta">
+      <span class="cat">{p.index} / {p.category}</span>
+      <span class={`status ${p.status}`}>{statusLabel[p.status]}</span>
+    </div>
+    <h3>{p.name}</h3>
+    <div class="tag">{p.tagline}</div>
+    <p class="sum">{p.summary}</p>
+    <div class="stack">{p.stack.map((s) => <span class="chip">{s}</span>)}</div>
+    <div class="actions">
+      <a class="main" href={`/projects/${p.slug}`}>View Project <span aria-hidden="true">→</span><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">: {p.name}</span></a>
+      {p.links.repo && <a class="sub" href={p.links.repo} target="_blank" rel="noopener noreferrer">GitHub ↗</a>}
+      {p.links.demo && <a class="sub" href={p.links.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,13 @@
+---
+import { profile, links } from '../data/profile';
+---
+<footer>
+  <div class="wrap">
+    <span>© {new Date().getFullYear()} {profile.name} · {profile.location}</span>
+    <span>
+      <a href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a> ·
+      <a href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+      <a href={`mailto:${links.email}`}>Email</a>
+    </span>
+  </div>
+</footer>
