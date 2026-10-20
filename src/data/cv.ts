@@ -18,7 +18,7 @@ export const cv = {
   title: 'Cybersecurity-Focused IT Professional',
 
   summary:
-    "IT professional with about five years of experience in technical support and development-related work, a Cisco CCNA (2024), and a background in networking, Python, Java, PHP and SQL. " +
+    "IT professional with about five years of experience in technical support and development-related work, a Cisco CCNA (2024), and a background in networking, Python, PHP, JavaScript, C, Java and SQL. " +
     "Completed the first year of a Master's in Cybersecurity and preparing for the INE eJPT certification. " +
     'Hands-on with network scanning, vulnerability assessment fundamentals and CVE research; built NetMap, an open-source Python network security scanner.',
 
@@ -26,7 +26,7 @@ export const cv = {
   skills: [
     { group: 'Networking', items: ['TCP/IP', 'Cisco networking', 'CCNA', 'Network discovery', 'Network scanning'] },
     { group: 'Cybersecurity', items: ['Nmap', 'Vulnerability assessment', 'CVE research', 'Penetration testing methodology', 'Security reporting'] },
-    { group: 'Programming', items: ['Python', 'Java', 'SQL', 'T-SQL', 'PHP', 'JavaScript', 'Bash'] },
+    { group: 'Programming', items: ['Python', 'PHP', 'JavaScript', 'C', 'Java', 'SQL', 'T-SQL', 'Bash'] },
     { group: 'Systems & Tools', items: ['Linux', 'Windows administration', 'MySQL', 'Git', 'Virtualization', 'Docker (fundamentals)'] },
   ],
 
