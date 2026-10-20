@@ -48,10 +48,11 @@ export const skillGroups: SkillGroup[] = [
     port: '03',
     skills: [
       { name: 'Python', level: 'experienced' },
+      { name: 'PHP', level: 'experienced' },
+      { name: 'JavaScript', level: 'experienced' },
+      { name: 'C', level: 'experienced' },
       { name: 'Java', level: 'experienced', note: 'taught at PIGIER' },
       { name: 'SQL & T-SQL', level: 'experienced', note: 'taught at PIGIER' },
-      { name: 'PHP', level: 'experienced' },
-      { name: 'JavaScript', level: 'working' },
       { name: 'Bash', level: 'working' },
     ],
   },
