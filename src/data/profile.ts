@@ -23,10 +23,15 @@ export const links = {
   email: 'zakariyaebouhout@gmail.com',
 };
 
-// CV: drop a file at public/cv.pdf and the "Download CV" links appear automatically.
+// CV: generated from src/data/cv.ts by `npm run cv` (runs automatically on dev/build).
+// The "Download CV" links appear only when the generated file exists.
+const base = 'Zakariyae_Bouhout_CV';
 export const cv = {
-  file: '/cv.pdf',
-  available: existsSync(join(process.cwd(), 'public', 'cv.pdf')),
+  base,
+  file: `/${base}.pdf`,
+  docx: `/${base}.docx`,
+  available: existsSync(join(process.cwd(), 'public', `${base}.pdf`)),
+  docxAvailable: existsSync(join(process.cwd(), 'public', `${base}.docx`)),
 };
 
 // Open-to line shown in the contact section

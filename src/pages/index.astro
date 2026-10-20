@@ -182,6 +182,7 @@ const pips = (l: Level) => ['a', 'b', 'c'];
         <a href={links.github} target="_blank" rel="noopener noreferrer">github.com/ZTheH ↗</a>
         <a href={links.linkedin} target="_blank" rel="noopener noreferrer">linkedin ↗</a>
         {cv.available && <a href={cv.file} download>cv.pdf ↓</a>}
+        {cv.docxAvailable && <a href={cv.docx} download>cv.docx ↓</a>}
       </div>
     </div>
   </section>

@@ -23,7 +23,7 @@ npm run preview  # serve the production build
 | Education, certifications, experience | `src/data/experience.ts` |
 | Lab write-ups | `src/content/labs/*.md` (copy `_template.md`) |
 | Colours, fonts, spacing tokens | top of `src/styles/global.css` |
-| CV | drop `public/cv.pdf` — "Download CV" buttons appear automatically |
+| CV (PDF + Word, ATS-friendly) | `src/data/cv.ts`, then `npm run cv` (also runs on `dev`/`build`). Outputs `public/Zakariyae_Bouhout_CV.pdf` and `.docx` and the "Download CV" buttons appear automatically |
 | Social preview image | `npm run og` regenerates `public/og.png` |
 
 Search the code for `TODO(confirm)` to find every detail that still needs your verification.
